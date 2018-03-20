@@ -1,0 +1,298 @@
+/* source/config.h.in.  Generated from configure.ac by autoheader.  */
+
+/* The location of installed ergo data files */
+#undef ERGO_DATA_PREFIX
+
+/* The location of the sources */
+#undef ERGO_SPREFIX
+
+/* XC functionals' precision */
+#undef FUNC_PRECISION
+
+/* Define to 1 if you have the `atexit' function. */
+#undef HAVE_ATEXIT
+
+/* Define to 1 if you have the `cos' function. */
+#undef HAVE_COS
+
+/* Define to 1 if you have the `cosf' function. */
+#undef HAVE_COSF
+
+/* Define to 1 if you have the `cosl' function. */
+#undef HAVE_COSL
+
+/* Define to 1 if you have the `cosq' function. */
+#undef HAVE_COSQ
+
+/* Define to 1 if you don't have `vprintf' but do have `_doprnt.' */
+#undef HAVE_DOPRNT
+
+/* Define to 1 if you have the `erf' function. */
+#undef HAVE_ERF
+
+/* Define to 1 if you have the `erfc' function. */
+#undef HAVE_ERFC
+
+/* Define to 1 if you have the `erfcf' function. */
+#undef HAVE_ERFCF
+
+/* Define to 1 if you have the `erfcl' function. */
+#undef HAVE_ERFCL
+
+/* Define to 1 if you have the `erfcq' function. */
+#undef HAVE_ERFCQ
+
+/* Define to 1 if you have the `erff' function. */
+#undef HAVE_ERFF
+
+/* Define to 1 if you have the `erfl' function. */
+#undef HAVE_ERFL
+
+/* Define to 1 if you have the `erfq' function. */
+#undef HAVE_ERFQ
+
+/* Define to 1 if you have the `exp' function. */
+#undef HAVE_EXP
+
+/* Define to 1 if you have the `expf' function. */
+#undef HAVE_EXPF
+
+/* Define to 1 if you have the `expl' function. */
+#undef HAVE_EXPL
+
+/* Define to 1 if you have the `expq' function. */
+#undef HAVE_EXPQ
+
+/* Define to 1 if you have the `fabs' function. */
+#undef HAVE_FABS
+
+/* Define to 1 if you have the `fabsf' function. */
+#undef HAVE_FABSF
+
+/* Define to 1 if you have the `fabsl' function. */
+#undef HAVE_FABSL
+
+/* Define to 1 if you have the `fabsq' function. */
+#undef HAVE_FABSQ
+
+/* Define to 1 if you have the `floor' function. */
+#undef HAVE_FLOOR
+
+/* Define to 1 if you have the <inttypes.h> header file. */
+#undef HAVE_INTTYPES_H
+
+/* Define to 1 if you have the `lapack' library (-llapack). */
+#undef HAVE_LIBLAPACK
+
+/* Define to 1 if you have the `m' library (-lm). */
+#undef HAVE_LIBM
+
+/* Define to 1 if you have the `mkl_lapack' library (-lmkl_lapack). */
+#undef HAVE_LIBMKL_LAPACK
+
+/* Define to 1 if you have the `pthread' library (-lpthread). */
+#undef HAVE_LIBPTHREAD
+
+/* Define to 1 if you have the `quadmath' library (-lquadmath). */
+#undef HAVE_LIBQUADMATH
+
+/* Define to 1 if you have the <limits.h> header file. */
+#undef HAVE_LIMITS_H
+
+/* Define to 1 if you have the `log' function. */
+#undef HAVE_LOG
+
+/* Define to 1 if you have the `log10' function. */
+#undef HAVE_LOG10
+
+/* Define to 1 if you have the `log10f' function. */
+#undef HAVE_LOG10F
+
+/* Define to 1 if you have the `log10l' function. */
+#undef HAVE_LOG10L
+
+/* Define to 1 if you have the `log10q' function. */
+#undef HAVE_LOG10Q
+
+/* Define to 1 if you have the `logf' function. */
+#undef HAVE_LOGF
+
+/* Define to 1 if you have the `logl' function. */
+#undef HAVE_LOGL
+
+/* Define to 1 if you have the `logq' function. */
+#undef HAVE_LOGQ
+
+/* Define to 1 if your system has a GNU libc compatible `malloc' function, and
+   to 0 otherwise. */
+#undef HAVE_MALLOC
+
+/* Define to 1 if you have the <memory.h> header file. */
+#undef HAVE_MEMORY_H
+
+/* Define to 1 if you have the `memset' function. */
+#undef HAVE_MEMSET
+
+/* Define to 1 if you have the `pow' function. */
+#undef HAVE_POW
+
+/* Define to 1 if you have the `powf' function. */
+#undef HAVE_POWF
+
+/* Define to 1 if you have the `powl' function. */
+#undef HAVE_POWL
+
+/* Define to 1 if you have the `powq' function. */
+#undef HAVE_POWQ
+
+/* Define to 1 if your system has a GNU libc compatible `realloc' function,
+   and to 0 otherwise. */
+#undef HAVE_REALLOC
+
+/* Define to 1 if you have the `rint' function. */
+#undef HAVE_RINT
+
+/* Define to 1 if you have the `sin' function. */
+#undef HAVE_SIN
+
+/* Define to 1 if you have the `sinf' function. */
+#undef HAVE_SINF
+
+/* Define to 1 if you have the `sinl' function. */
+#undef HAVE_SINL
+
+/* Define to 1 if you have the `sinq' function. */
+#undef HAVE_SINQ
+
+/* Define to 1 if you have the `sqrt' function. */
+#undef HAVE_SQRT
+
+/* Define to 1 if you have the `sqrtf' function. */
+#undef HAVE_SQRTF
+
+/* Define to 1 if you have the `sqrtl' function. */
+#undef HAVE_SQRTL
+
+/* Define to 1 if you have the `sqrtq' function. */
+#undef HAVE_SQRTQ
+
+/* Define to 1 if you have the <stddef.h> header file. */
+#undef HAVE_STDDEF_H
+
+/* Define to 1 if you have the <stdint.h> header file. */
+#undef HAVE_STDINT_H
+
+/* Define to 1 if you have the <stdlib.h> header file. */
+#undef HAVE_STDLIB_H
+
+/* Define to 1 if you have the `strcasecmp' function. */
+#undef HAVE_STRCASECMP
+
+/* Define to 1 if you have the `strchr' function. */
+#undef HAVE_STRCHR
+
+/* Define to 1 if you have the `strdup' function. */
+#undef HAVE_STRDUP
+
+/* Define to 1 if you have the <strings.h> header file. */
+#undef HAVE_STRINGS_H
+
+/* Define to 1 if you have the <string.h> header file. */
+#undef HAVE_STRING_H
+
+/* Define to 1 if you have the `strncasecmp' function. */
+#undef HAVE_STRNCASECMP
+
+/* Define to 1 if you have the <sys/stat.h> header file. */
+#undef HAVE_SYS_STAT_H
+
+/* Define to 1 if you have the <sys/time.h> header file. */
+#undef HAVE_SYS_TIME_H
+
+/* Define to 1 if you have the <sys/types.h> header file. */
+#undef HAVE_SYS_TYPES_H
+
+/* Define to 1 if you have the <unistd.h> header file. */
+#undef HAVE_UNISTD_H
+
+/* Define to 1 if you have the `vprintf' function. */
+#undef HAVE_VPRINTF
+
+/* Name of package */
+#undef PACKAGE
+
+/* Define to the address where bug reports for this package should be sent. */
+#undef PACKAGE_BUGREPORT
+
+/* Define to the full name of this package. */
+#undef PACKAGE_NAME
+
+/* Define to the full name and version of this package. */
+#undef PACKAGE_STRING
+
+/* Define to the one symbol short name of this package. */
+#undef PACKAGE_TARNAME
+
+/* Define to the home page for this package. */
+#undef PACKAGE_URL
+
+/* Define to the version of this package. */
+#undef PACKAGE_VERSION
+
+/* which precision should be used */
+#undef PRECISION_DOUBLE
+
+/* which precision should be used */
+#undef PRECISION_LONG_DOUBLE
+
+/* which precision should be used */
+#undef PRECISION_QUAD_FLT128
+
+/* which precision should be used */
+#undef PRECISION_SINGLE
+
+/* Define to 1 if you have the ANSI C header files. */
+#undef STDC_HEADERS
+
+/* Use BLAS for small matrices in XC integration */
+#undef USE_BLAS_IN_XC
+
+/* Use C++ Linear Algebra Template Library */
+#undef USE_LINALG_TEMPLATES
+
+/* Use SSE intrinsics to generate efficient computational kernels */
+#undef USE_SSE_INTRINSICS
+
+/* Version number of package */
+#undef VERSION
+
+/* Define to 1 if `lex' declares `yytext' as a `char *' by default, not a
+   `char[]'. */
+#undef YYTEXT_POINTER
+
+/* Define to rpl_malloc if the replacement function should be used. */
+#undef malloc
+
+/* Define to rpl_realloc if the replacement function should be used. */
+#undef realloc
+
+/* Define to the equivalent of the C99 'restrict' keyword, or to
+   nothing if this is not supported.  Do not define if restrict is
+   supported directly.  */
+#undef restrict
+/* Work around a bug in Sun C++: it does not support _Restrict or
+   __restrict__, even though the corresponding Sun C compiler ends up with
+   "#define restrict _Restrict" or "#define restrict __restrict__" in the
+   previous line.  Perhaps some future version of Sun C++ will work with
+   restrict; if so, hopefully it defines __RESTRICT like Sun C does.  */
+#if defined __SUNPRO_CC && !defined __RESTRICT
+# define _Restrict
+# define __restrict__
+#endif
+
+/* Define to `unsigned int' if <sys/types.h> does not define. */
+#undef size_t
+
+/* Define to empty if the keyword `volatile' does not work. Warning: valid
+   code using `volatile' can become incorrect without. Disable with care. */
+#undef volatile

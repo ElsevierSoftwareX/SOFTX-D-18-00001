@@ -1,0 +1,6 @@
+# run it as
+# source/ergo -m mol/h2o_a.xyz params/hf321g.ego
+#
+scf.convergence_threshold = 1e-4
+basis = "3-21G"
+run "HF"

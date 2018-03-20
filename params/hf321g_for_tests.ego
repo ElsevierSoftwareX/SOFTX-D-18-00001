@@ -1,0 +1,7 @@
+scf.max_number_of_iterations = 15
+scf.convergence_threshold = 1e-5
+basis = "STO-2G"
+run "HF"
+initial_density = "density.bin"
+basis = "3-21G"
+run "HF"

@@ -1,0 +1,19 @@
+===================================================
+Ergo version 3.6 release notes, 2017-12-29
+===================================================
+
+The following changes were made compared to the previous version:
+
+- Improved method for on-the-fly computation of HOMO and LUMO
+  orbitals during purification procedure
+  (see http://dx.doi.org/10.1021/acs.jctc.7b00968).
+
+- Added configure option to choose quad precision meaning that
+  PRECISION_QUAD_FLT128 gets defined, setting the ergo_real type to
+  the gcc __float128 quad-precision type.
+
+- Added list_dft_funcs input command that can be used to list all
+  available KS-DFT functionals.
+
+- Bugfixes and code cleanup.
+

@@ -1,0 +1,11 @@
+# Example input file for a linear response (LR) calculation.
+#
+# run it as
+# source/ergo params/lr.ego
+#
+basis = "3-21G"
+molecule_inline
+C   0.0 0.0 0.0
+O   0   0   2.5
+EOF
+get_excited_state "B3LYP" 3

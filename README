@@ -1,0 +1,54 @@
+-*- mode: outline -*-
+
+* Usual configuration:
+
+./configure && make
+
+Options can be passed - see config_examples.txt for more information.
+
+* Correctness test:
+
+make check
+
+Verbose variant:
+make check VERBOSE=1
+
+* Benchmark (compiler/architecture):
+
+Following command will run longer and more memory-consuming tests:
+
+make check RUN_BENCHMARK=1
+or even
+make check RUN_BENCHMARK=1 VERBOSE=1 TMPDIR=/scratch
+
+These tests are synthetic and may not be 100% reliable. In particular,
+load balancing in the parallelization is known to be a problem.
+
+More realistic benchmark can be achieved by running
+
+for i in 1 2 3 4; do 
+env OMP_NUM_THREADS=$i time source/ergo params/b3lyp.ego
+done
+
+This runs an actual calculation. time will print total execution time
+but also times spent in different parts of the calulcation is of
+interest for the developers. For practical performance, the sum of the
+numbers in the row matters, and the last row is most representative
+for actual calculations.
+
+* Source documentation
+
+Just run doxygen and check out documentation/html/index.html
+
+* Needed for configure & make
+
+c++ compiler
+The BLAS and LAPACK linear algebra libraries are needed unless the --enable-linalgebra-templates configure flag is used.
+The bc calculator program is needed by some of the test scripts.
+
+Additional programs may be needed to compile the code after modifications:
+
+autoconf
+automake
+If you wish to modify the input parser stuff, yacc (or bison) and flex are also needed.
+

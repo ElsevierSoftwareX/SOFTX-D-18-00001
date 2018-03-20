@@ -1,0 +1,8 @@
+BASIS
+STO-2G
+Direct SCF calculation  w/o symmetry
+ -----------------------------------
+    1    0
+        1.    2
+H     0.0   0.0   0.0
+H     0.0   0.0   1.4

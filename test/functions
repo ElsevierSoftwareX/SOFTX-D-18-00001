@@ -1,0 +1,189 @@
+#!/bin/sh
+
+
+# Prefer gawk - we know exactly what it can do.
+# awk on Sun does not support functions, need to use nawk for this
+if gawk '{print 1}'</dev/null > /dev/null 2>&1; then
+   AWK=gawk
+elif nawk '{print 1}'</dev/null > /dev/null 2>&1; then
+   AWK=nawk
+else
+   AWK=awk
+fi
+
+
+# Check that AWK can handle floating-point numbers the way we want: 1.2 + 2.3 should become 3.5.
+# This was added to make the tests work on Mac with e.g. Danish or Swedish language (locale) settings.
+if echo "1.2 2.3" | $AWK '{print $1 + $2}' | grep "3[.]5" > /dev/null 2>&1; then
+   # awk works OK, do nothing
+   echo > /dev/null
+else
+   # awk does not work the way we want.
+   #check if it helps if we set LANG=C or LOCALE=C
+   if echo "1.2 2.3" | env LANG=C $AWK '{print $1 + $2}' | grep "3[.]5" > /dev/null 2>&1; then
+      export LANG=C
+   elif echo "1.2 2.3" | env LOCALE=C $AWK '{print $1 + $2}' | grep "3[.]5" > /dev/null 2>&1; then
+      export LOCALE=C
+   fi
+fi
+
+
+# check_final_energy:
+# $1 - expected energy
+# $2 - max deviation
+check_final_energy() {
+[ "$2" = "" ] &&  echo "not enough parameters to check_final_energy."
+$AWK 'function e(v,r){#print "check_final_energy: checking ",v, r;
+return(v>r||v<-r)}
+/FINAL ENERGY/{c=1; printf "computed  %15.9f\nreference %15.9f\n", $4, '$1'; exit (e($4-('$1'),'$2'))} END{if(!c) exit(1)}
+' ergoscf.out
+}
+
+# check_dipole: (checking dipole moment from SCF calculation)
+# $1 - x, y, or z
+# $2 - expected dipole moment component
+# $3 - max deviation
+check_dipole() {
+[ "$3" = "" ] &&  echo "not enough parameters to check_dipole."
+$AWK 'function e(v,r){#print "check_dipole: checking ",v, r;
+return(v>r||v<-r)}
+/INSC SCF: dipole_moment_'$1'/{c=1; printf "computed  %15.9f\nreference %15.9f\n", $7, '$2'; exit (e($7-('$2'),'$3'))} END{if(!c) exit(1)}
+' ergoscf.out
+}
+
+# check_dipole_ci: (checking dipole moment from CI calculation)
+# $1 - x, y, or z
+# $2 - expected dipole moment component
+# $3 - max deviation
+check_dipole_ci() {
+[ "$3" = "" ] &&  echo "not enough parameters to check_dipole_ci."
+$AWK 'function e(v,r){#print "check_dipole_ci: checking ",v, r;
+return(v>r||v<-r)}
+/INCI CI: dipole_moment_'$1'/{c=1; printf "computed  %15.9f\nreference %15.9f\n", $7, '$2'; exit (e($7-('$2'),'$3'))} END{if(!c) exit(1)}
+' ergoscf.out
+}
+
+# check_mulliken_charge:
+# $1 - atom index
+# $2 - expected Mulliken atomic charge
+# $3 - max deviation
+check_mulliken_charge() {
+[ "$3" = "" ] &&  echo "not enough parameters to check_mulliken_charge."
+$AWK 'function e(v,r){#print "check_mulliken_charge: checking ",v, r;
+return(v>r||v<-r)}
+/INSC Mulliken charge of atom '$1'/{c=1; printf "computed  %15.9f\nreference %15.9f\n", $8, '$2'; exit (e($8-('$2'),'$3'))} END{if(!c) exit(1)}
+' ergoscf.out
+}
+
+# check_mulliken_spin:
+# $1 - atom index
+# $2 - expected Mulliken atomic spin density
+# $3 - max deviation
+check_mulliken_spin() {
+[ "$3" = "" ] &&  echo "not enough parameters to check_mulliken_spin."
+$AWK 'function e(v,r){#print "check_mulliken_spin: checking ",v, r;
+return(v>r||v<-r)}
+/INSC Mulliken spin density of atom '$1'/{c=1; printf "computed  %15.9f\nreference %15.9f\n", $9, '$2'; exit (e($9-('$2'),'$3'))} END{if(!c) exit(1)}
+' ergoscf.out
+}
+
+# check_final_ci_energy:
+# $1 - expected CI energy
+# $2 - max deviation
+check_final_ci_energy() {
+[ "$2" = "" ] &&  echo "not enough parameters to check_final_ci_energy."
+$AWK 'function e(v,r){#print "check_final_energy: checking ",v, r;
+return(v>r||v<-r)}
+/FINAL CI ENERGY/{c=1; printf "computed  %15.9f\nreference %15.9f\n", $6, '$1'; exit (e($6-('$1'),'$2'))} END{if(!c) exit(1)}
+' ergoscf.out
+}
+
+# check_final_ci_corr_energy:
+# $1 - expected CI correlation energy
+# $2 - max deviation
+check_final_ci_corr_energy() {
+[ "$2" = "" ] &&  echo "not enough parameters to check_final_ci_corr_energy."
+$AWK 'function e(v,r){#print "check_final_energy: checking ",v, r;
+return(v>r||v<-r)}
+/FINAL CI CORRELATION ENERGY/{c=1; printf "computed  %15.9f\nreference %15.9f\n", $7, '$1'; exit (e($7-('$1'),'$2'))} END{if(!c) exit(1)}
+' ergoscf.out
+}
+
+# check_final_S2:
+# $1 - expected <S2>
+# $2 - max deviation
+check_final_S2() {
+[ "$2" = "" ] &&  echo "not enough parameters to check_final_S2."
+$AWK 'function e(v,r){#print "check_final_S2: checking ",v, r; 
+return(v>r||v<-r)}
+/FINAL <S2>/{c=1; printf "computed  %15.9f\nreference %15.9f\n", $5, '$1'; exit (e($5-('$1'),'$2'))} END{if(!c) exit(1)}
+' ergoscf.out
+}
+
+# check_tdhf_dipole_at_time
+# $1 - time as integer
+# $2 - expected dipole value at that time
+# $3 - max deviation
+check_tdhf_dipole_at_time()
+{
+[ "$3" = "" ] &&  echo "not enough parameters for check_tdhf_dipole_at_time."
+# echo check_tdhf_dipole_at_time, params: $1 $2 $3
+$AWK 'function e(v,r){return(v>r||v<-r)}
+function valwithreversedsign(v){return(-v)}
+/^INED Data for dipole plot/ && $6=='$1'{c=1; printf "computed  %15.9f\nreference %15.9f\n", $7, valwithreversedsign('$2'); exit (e($7-(valwithreversedsign('$2')),'$3'))} END{if(!c) { print "Not found";exit(1)}}
+' ergoscf.out
+}
+
+# check_lr_eigenvalue:
+# $1 - eigenvalue number
+# $2 - expected eigenvalue
+# $3 - max deviation
+check_lr_eigenvalue()
+{
+[ "$3" = "" ] &&  echo "not enough parameters to check_lr_eigenvalue."
+$AWK 'function e(v,r){return(v>r||v<-r)}
+/^ERMA Eigenvalue / && $3=="'$1':"{c=1; printf "computed  %15.9f\nreference %15.9f\n", $4, '$2'; exit (e($4-('$2'),'$3'))} END{if(!c) { print "Not found";exit(1)}}
+' ergoscf.out
+}
+
+# check_polarisability:
+# $1 - left-hand-side operator (X,Y,Z)
+# $2 - right-hand-side operator (X,Y,Z)
+# $3 - frequency
+# $4 - reference value
+# $5 - max deviation
+check_polarisability()
+{
+[ "$5" = "" ] &&  echo "not enough parameters to check_polarizability."
+$AWK 'function e(v,r){return(v>r||v<-r)}
+/^REMA Response / && $4 == "'$1'" && $6 == "'$2'" && $10 ~ /^'$3'0*:/ {
+c=1; #print;printf "computed  %15.9f\nreference %15.9f\n", $11, '$4';
+  exit (e($11-('$4'),'$5'))} END{if(!c) { print "Not found";exit(1)}}
+' ergoscf.out
+}
+
+# check_gradient_component_by_finite_diff:
+# $1 - atom index to check
+# $2 - coord index to check ( 0 1 2 <--> x y z )
+# $3 - epsilon (diff in coords used for finite difference)
+# $4 - max deviation
+check_gradient_component_by_finite_diff() {
+[ "$2" = "" ] &&  echo "not enough parameters to check_final_energy."
+$AWK 'function e(v,r){#print "check_gradient_component_by_finite_diff: checking ",v, r;
+return(v>r||v<-r)}
+BEGIN {c = 0}
+/FINAL ENERGY/{c++; vec[c] = $4}
+/INSC Atom / && $3=="'$1':" {gradvalues[0] = $4 ; gradvalues[1] = $5 ; gradvalues[2] = $6}
+END {gradientvaluefd = (vec[1]-vec[2])/(2*'$3') ; printf "computed          %13.9f\nfinite-diff value %13.9f\n", gradientvaluefd, gradvalues['$2']; exit (e(gradientvaluefd-gradvalues['$2'], '$4'))}
+' ergoscf.out.sav1 ergoscf.out.sav2 ergoscf.out.gradient
+}
+
+# print_sum_of_values:
+# $1 - first value
+# $2 - second value
+print_sum_of_values()
+{
+[ "$2" = "" ] &&  echo "not enough parameters to print_sum_of_values."
+$AWK 'BEGIN {printf "%18.12f\n", '$1'+'$2'}'
+}
+

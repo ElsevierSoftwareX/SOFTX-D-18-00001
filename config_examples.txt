@@ -1,0 +1,208 @@
+on dallas, if you want to link with LAPACK
+env LIBS=-llapack ./configure
+
+on etorofu:
+env CFLAGS="-O4 -march=x86-64 -ffast-math -fexpensive-optimizations -funroll-loops -std=c99" ./configure
+
+on juliana (lenngren):
+module add i-compilers
+env CC=icc CFLAGS='-O2 -xP -ip -restrict' ./configure
+
+on juliana (lenngren), if you want to link with LAPACK:
+env CC=icc CFLAGS='-O2 -xP -ip -restrict' LIBS='-L/pdc/vol/mkl/7.2.0-008/lib/em64t -lmkl_lapack -lmkl_em64t -lguide -lpthread -Wl,--rpath,/pdc/vol/mkl/7.2.0-008/lib/em64t' ./configure
+
+on juliana (lenngren), using gcc 4.2 and openmp
+module add gcc/4.2.pre20070501
+env CC=gcc CXX=g++ CXXFLAGS='-O2 -fopenmp' LDFLAGS='-fopenmp' LIBS='-L/pdc/vol/mkl/7.2.0-008/lib/em64t -lmkl_lapack -lmkl_em64t -lguide -lpthread -Wl,--rpath,/pdc/vol/mkl/7.2.0-008/lib/em64t' ./configure
+
+on juliana (lenngren), using MPI compiler
+module add i-compilers scampi
+env CC='mpicc -ccl icc' CFLAGS='-O2 -xP -ip -restrict' ./configure
+
+on juliana (lenngren), using MPI compiler and LAPACK
+module add i-compilers scampi
+env CC='mpicc -ccl icc' CFLAGS='-O2 -xP -ip -restrict' LIBS='-L/pdc/vol/mkl/7.2.0-008/lib/em64t -lmkl_lapack -lmkl_em64t -lguide -lpthread -Wl,--rpath,/pdc/vol/mkl/7.2.0-008/lib/em64t' ./configure
+
+on juliana (lenngren), using pg compiler
+env CC=pgcc CXX=pgCC CFLAGS='-fastsse' CXXFLAGS='-fastsse' LIBS='-L/pdc/vol/mkl/7.2.0-008/lib/em64t -lmkl_lapack -lmkl_em64t -lguide -lpthread -Wl,--rpath,/pdc/vol/mkl/7.2.0-008/lib/em64t' ./configure
+
+on sarek.hpc2n.umu.se, linking with LAPACK:
+env LIBS='-L/usr/lib/atlas -llapack -lblas' ./configure
+
+on sarek.hpc2n.umu.se with pgi compiler, linking with LAPACK:
+module add pgi
+env CC=pgcc CXX=pgcpp CFLAGS='-fast' CXXFLAGS='-fast' LIBS='-L/usr/lib/atlas -llapack -lblas' ./configure
+
+on sarek.hpc2n.umu.se with pathscale compiler, using goto blas:
+module add psc
+env CC=pathcc CFLAGS=-O3 CXX=pathCC CXXFLAGS=-O3 LIBS='-lgoto -llapack -lgoto' ./configure --disable-critical-warnings
+
+on akka.hpc2n.umu.se using gcc with openmp and goto blas:
+env CXXFLAGS='-O3 -fopenmp' LDFLAGS='-fopenmp' LIBS='/home/e/elias/ergosvn/ergo/goto/GotoBLAS2/libgoto2_penryn-r1.11p1.a -lgfortran' ./configure
+
+on akka.hpc2n.umu.se using icc version 10.1 with openmp and goto blas:
+module load intel-compiler/10.1
+Change 2010-09-12: now it seems to work with the latest icpc (11.1) also:
+module load intel-compiler
+env CXX=icpc CXXFLAGS='-O3 -openmp' CC=icc CFLAGS='-O3 -openmp' LDFLAGS='-openmp' LIBS='/home/e/elias/ergosvn/ergo/goto/GotoBLAS2/libgoto2_penryn-r1.11p1.a -lgfortran' ./configure
+
+on akka.hpc2n.umu.se using icc and MKL (this worked 2011-08-20):
+module load intel-compiler
+module load intel-mkl
+env CXX=icpc CXXFLAGS='-O3 -openmp' CC=icc CFLAGS='-O3 -openmp' LDFLAGS='-openmp -L/lap/intel-mkl/10.3.3.174/mkl/lib/intel64 -Wl,-rpath -Wl,/lap/intel-mkl/10.3.3.174/mkl/lib/intel64' LIBS='-lmkl_intel_lp64 -lmkl_sequential -lmkl_core' ./configure --disable-critical-warnings
+
+on abisko.hpc2n.umu.se using icc and MKL (this worked 2016-02-18):
+env CXX=icpc CXXFLAGS="-O2 -openmp $MKL_INCLUDE" CC=icc CFLAGS="-O2 -openmp $MKL_INCLUDE" LDFLAGS="-openmp $MKL_LDFLAGS" LIBS='-lmkl_intel_lp64 -lmkl_sequential -lmkl_core' ../configure --disable-critical-warnings
+
+
+on sgi3k, to get 1e-33 precision:
+env CC=c99 ./configure --with-precision=l
+
+on sgi3k, linking with LAPACK
+env CC=c99 LIBS=-lcomplib.sgimath ./configure
+
+on mozart.nsc.liu.se, with LAPACK
+env LIBS="-L$MKL_ROOT -lmkl_lapack" ./configure
+
+on mozart.nsc.liu.se, using "home-made" gcc 4.2 with openmp
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/y_eliru/gcc/installdir/lib
+env CC=/home/y_eliru/gcc/installdir/bin/gcc CFLAGS='-O3 -fopenmp' CXX=/home/y_eliru/gcc/installdir/bin/g++ CXXFLAGS='-O3 -fopenmp' LDFLAGS='-fopenmp' LIBS="-lm -lmkl_lapack -lmkl -lpthread -L/usr/local/intel/mkl/8.0.1/lib/64 -lmkl_lapack -L/home/y_eliru/gcc/installdir/lib" ./configure
+
+on AIX/OSX:
+CC=xlc CFLAGS="-O3 -qstrict -qlanglvl=stdc99" ./configure
+
+to choose precision: (choices are short, double, long)
+./configure --with-precision=l
+
+on zeta (athlon, gcc-4.1)
+LDFLAGS="-static  -L/home/pawsa/archive/Linux_HAMMER64SSE2_2/lib" LIBS="/usr/lib64/liblapack.a -lpthread -lblas -lgfortran" CFLAGS="-O3 -ftree-vectorize -std=c99" CXXFLAGS=-O3 ./configure
+
+To get all compiler warnings both for c and c++ code:
+env CC='gcc -Wall' CXX='g++ -Wall' ./configure
+
+on 32GB mem Itanium computer at PDC (luc2):
+module add i-compilers/9.1.042
+env CC=icc CFLAGS='-O2 -ip -restrict' LIBS='-L/pdc/vol/mkl/7.2.0-008/lib/64 -lmkl_lapack -lmkl -lguide -lpthread -Wl,--rpath,/pdc/vol/mkl/7.2.0-008/lib/64' ./configure
+
+on 32GB mem Itanium computer at PDC (luc2), using gcc version 4.2 with OpenMP:
+module add gcc/4.2.pre20070501
+env CC=gcc CFLAGS='-O3 -fopenmp' CXX=g++ CXXFLAGS='-O3 -fopenmp' LDFLAGS='-fopenmp' LIBS='-lm -lmkl_lapack -lmkl -lpthread -L/pdc/vol/mkl/8.0.019/lib/64 -lmkl_lapack -lpthread -Wl,--rpath,/pdc/vol/mkl/8.0.019/lib/64 -Wl,-rpath -Wl,/pdc/vol/gcc/4.2.pre20070501/lib -lgomp' ./configure
+
+on neolith.nsc.liu.se using gcc v 4.1.1 with OpenMP:
+env CC=gcc CFLAGS='-fopenmp -O3' CXX=g++ CXXFLAGS='-fopenmp -O3' LDFLAGS='-fopenmp' LIBS='-lm -L/software/intel/cmkl/9.1/lib/em64t -lmkl_lapack -lmkl -Wl,-rpath=/software/intel/cmkl/9.1/lib/em64t' ./configure
+
+on neolith.nsc.liu.se using icc v 9.1:
+module add icc/9.1.051
+env CC=icc CFLAGS='-O3' CXX=icpc CXXFLAGS='-O3' LIBS='-lpthread -L/software/intel/cmkl/9.1/lib/em64t -lmkl_lapack -lmkl -Wl,-rpath=/software/intel/cmkl/9.1/lib/em64t' ./configure
+
+on neolith.nsc.liu.se using icc v 10.1 and MKL:
+module load icc/10.1
+module load mkl
+env CC='icc -Nmkl' CFLAGS='-openmp' CXX='icpc -Nmkl' CXXFLAGS='-openmp' ./configure
+
+on kappa.nsc.liu.se using icc v 12.0 and MKL (this worked 2011-07-21):
+module load icc/12.0.3
+module load mkl/10.3.3.174
+env CC='icc -Nmkl' CFLAGS='-openmp' CXX='icpc -Nmkl' CXXFLAGS='-openmp' LDFLAGS='-lmkl_intel_lp64 -lmkl_sequential -lmkl_core' ./configure --disable-critical-warnings
+
+on 256 GB mem Itanium computer at PDC (key) using icc and OpenMP:
+module add i-compilers/10.1.2008-02-07
+env CC=icc CFLAGS='-O2 -ip -restrict -openmp' CXX=icpc CXXFLAGS='-O2 -ip -restrict -openmp' LIBS='-L/pdc/vol/mkl/7.2.0-008/lib/64 -lmkl_lapack -lmkl -lguide -lpthread -Wl,--rpath,/pdc/vol/mkl/7.2.0-008/lib/64' ./configure
+
+on juliana (lenngren), using icc 10.1, openmp and mkl 8.0. 
+env CC=icc CFLAGS='-O2 -ip -restrict -openmp' CXX=icpc CXXFLAGS='-O2 -ip -restrict -openmp' LIBS='-L/pdc/vol/mkl/8.0.019/lib/em64t -lmkl_lapack -lmkl_em64t -lguide -lpthread -Wl,--rpath,/pdc/vol/mkl/8.0.019/lib/em64t' ./configure
+
+on isis.uppmax.uu.se, using gcc version 4.3.2 and own downloaded ACML:
+env CC=gcc CXX=g++ CFLAGS='-fopenmp -O3' CXXFLAGS='-fopenmp -O3' LIBS='-L/bubo/home/h20/eliasr/acml/installation/gfortran64/lib -static -lacml -lgfortran' ./configure
+
+on kalkyl.uppmax.uu.se using gcc 4.4.2 with OpenMP and Goto BLAS:
+module load gcc
+env CXXFLAGS='-O3 -fopenmp' LDFLAGS='-fopenmp' LIBS='/bubo/home/h20/eliasr/goto/GotoBLAS2/libgoto2.a -lgfortran' ./configure
+(Not so good performance for OpenMP matrix stuff, probably due to gcc openmp having much initilization overhead.)
+
+on kalkyl.uppmax.uu.se using icc 10.1 with OpenMP and Goto BLAS (Goto compiled with gcc 4.4.2):
+module load intel/10.1
+Change 2010-09-12: now it seems to work with the latest icpc (11.1) also:
+module load intel
+env CXX=icpc CXXFLAGS='-O3 -openmp' LDFLAGS='-openmp' LIBS='/bubo/home/h20/eliasr/goto/GotoBLAS2/libgoto2.a -lgfortran' ./configure
+(Better performance for OpenMP matrix stuff, probably due to icc openmp having less initilization overhead.)
+
+on kalkyl using MKL:
+module load intel 
+env CXX=icpc CXXFLAGS='-O3 -openmp' LDFLAGS='-openmp -mkl=sequential' ./configure --disable-critical-warnings
+( we should really fix it so the --disable-critical-warnings is not needed. )
+
+on kalkyl using Intel 12.0 and MKL:
+module load intel/12.0
+env CXX=icpc CXXFLAGS='-O3 -openmp' LDFLAGS='-openmp -mkl=sequential' ./configure --disable-critical-warnings
+
+on lindgren (Cray machine at PDC) with Intel compiler
+module swap PrgEnv-pgi PrgEnv-intel
+module load xt-libsci fftw
+env CC=cc CFLAGS=-openmp CXX=CC CXXFLAGS=-openmp ./configure --disable-critical-warnings
+(with module load perftools this gives internal compiler error)
+
+on lindgren (Cray machine at PDC) with gnu compiler and profiling
+module swap PrgEnv-pgi/3.0.20 PrgEnv-gnu/3.0.20
+module swap gcc/4.5.0 gcc/4.4.3
+env CC=cc CFLAGS='-fopenmp -O3' CXX=CC CXXFLAGS='-fopenmp -O3' LDFLAGS=-fopenmp ./configure --disable-critical-warnings --enable-linalgebra-templates
+module load perftools
+make clean && make
+
+on ferlin.pdc.kth.se
+module load i-compilers/11.1 mkl/11.1
+env CC=icc CFLAGS='-O2 -ip -restrict -openmp' CXX=icpc CXXFLAGS='-O2 -ip -restrict -openmp' LDFLAGS='-L/pdc/vol/i-compilers/11.1/icc/mkl/lib/em64t -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -Wl,--rpath,/pdc/vol/i-compilers/11.1/icc/mkl/lib/em64t' ./configure --disable-critical-warnings
+
+on povel.pdc.kth.se
+module load i-compilers/11.1 mkl/11.1
+env CC=icc CFLAGS='-O2 -ip -restrict -openmp' CXX=icpc CXXFLAGS='-O2 -ip -restrict -openmp' LDFLAGS='-L/pdc/vol/i-compilers/11.1/icc/mkl/lib/em64t -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -Wl,--rpath,/pdc/vol/i-compilers/11.1/icc/mkl/lib/em64t' ./configure --disable-critical-warnings
+
+in Cygwin on a Windows machine:
+./configure --enable-linalgebra-templates --disable-silent-rules LDFLAGS='-Wl,--stack,8000000'
+
+on MareNostrum III at Barcelona Supercomputing Center (config instructions from Harald Servat):
+module load mkl
+CC=icc CFLAGS='-g -O3 -xAVX -openmp -mkl=sequential' CXX=icpc CXXFLAGS='-g -O3 -xAVX -openmp -mkl=sequential' ./configure --disable-critical-warnings
+
+on milou.uppmax.uu.se using OpenBlas:
+env CXXFLAGS='-O3 -fopenmp' LIBS=/home/eliasr/OpenBlas/inst/serial/lib/libopenblas_sandybridge-r0.2.8.a LDFLAGS='-lgfortran -lpthread' ./configure
+
+on triolith.nsc.liu.se (July 2015):
+module load buildenv-intel/2015-1
+env CC=icc CFLAGS='-O2 -openmp' CXX=icpc CXXFLAGS='-O2 -openmp' LDFLAGS='-Nmkl -mkl=sequential' ./configure
+
+on triolith.nsc.liu.se (July 2017):
+module load buildenv-intel/2017
+env CC=icc CFLAGS='-O2 -qopenmp' CXX=icpc CXXFLAGS='-O2 -qopenmp' LDFLAGS='-Nmkl -mkl=sequential' ./configure
+
+on triolith.nsc.liu.se using gcc/6.1.0 and OpenBLAS (build serial OpenBLAS using "make USE_THREAD=0") (June 2016):
+module load gcc/6.1.0
+env CC=gcc CXX=g++ CFLAGS='-O3 -fopenmp' CXXFLAGS='-O3 -fopenmp' LIBS=/home/x_eliru/OpenBLAS/OpenBLAS-0.2.18/libopenblas_sandybridge-r0.2.18.a LDFLAGS='-lgfortran -lpthread' ./configure
+
+on beskow.pdc.kth.se using Intel compiler and MKL (Aug 2015):
+module swap PrgEnv-cray PrgEnv-intel
+salloc -A m.2015-1-269 -n 32 -t 1:00:00
+export CRAY_ROOTFS=DSL
+aprun -n 1 -d 32 env CC=cc CXX=CC CFLAGS='-mkl=sequential' CXXFLAGS='-mkl=sequential' LDFLAGS='-mkl=sequential' ./configure
+aprun -n 1 -d 32 make clean
+aprun -n 1 -d 32 make -j16
+
+on beskow.pdc.kth.se using Cray compiler 8.4.0 (Jul 2016):
+module swap cce/8.3.4 cce/8.4.0
+salloc -A m.2016-1-7 -n 32 -t 1:00:00
+export CRAY_ROOTFS=DSL
+aprun -n 1 -d 32 env CC=cc CXX=CC ./configure
+aprun -n 1 -d 32 make clean
+aprun -n 1 -d 32 make -j16
+
+on a machine with gcc as default compiler and where blas+lapack are installed, with OpenMP:
+env CXXFLAGS='-O3 -fopenmp' LDFLAGS='-fopenmp' ./configure
+
+using the clang compiler with all compiler warnings enabled:
+env CC=clang CCFLAGS='-Wall' CXX=clang++ CXXFLAGS='-Wall' ./configure
+
+using code coverage checking:
+./configure --enable-coverage
+make clean && make -j4 && make check -j4
+lcov --capture --directory . --output-file coverage.info
+genhtml coverage.info --output-directory out
